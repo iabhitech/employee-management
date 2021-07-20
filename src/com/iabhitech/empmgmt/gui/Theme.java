@@ -62,15 +62,14 @@ public class Theme {
             textPrimary = Color.WHITE;
             textSecondary = Color.GRAY;
             bgPrimary = Color.BLACK;
-            bgSecondary = Color.DARK_GRAY;
+            bgSecondary = new Color(240, 240, 240);
             CURRENT_THEME = DARK_THEME;
         } else {
             textPrimary = Color.BLACK;
-            textSecondary = Color.DARK_GRAY;
+            textSecondary =new Color(102, 102, 102);
             bgPrimary = Color.WHITE;
             bgSecondary = new Color(240, 240, 240);
             CURRENT_THEME = LIGHT_THEME;
-
         }
     }
 

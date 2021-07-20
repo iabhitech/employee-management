@@ -4,7 +4,12 @@
  */
 package com.iabhitech.empmgmt.gui;
 
+import com.iabhitech.empmgmt.dao.EmployeeDao;
+import com.iabhitech.empmgmt.pojo.Employee;
 import java.awt.Component;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +21,7 @@ public class ViewAllEmployeeFrame extends javax.swing.JFrame {
         initComponents();
         super.setLocationRelativeTo(null);
         toggleTheme.setValue(Theme.CURRENT_THEME);
+        updateRecord();
     }
 
     /**
@@ -55,6 +61,11 @@ public class ViewAllEmployeeFrame extends javax.swing.JFrame {
 
         btnRefresh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnRefresh.setText("REFRESH");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         toggleTheme.setMaximum(1);
         toggleTheme.setToolTipText("Toogle Dark/Light Theme");
@@ -69,6 +80,7 @@ public class ViewAllEmployeeFrame extends javax.swing.JFrame {
 
         textArea.setEditable(false);
         textArea.setColumns(20);
+        textArea.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
@@ -151,6 +163,11 @@ public class ViewAllEmployeeFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        updateRecord();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -196,4 +213,25 @@ public class ViewAllEmployeeFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea textArea;
     private javax.swing.JSlider toggleTheme;
     // End of variables declaration//GEN-END:variables
+
+    private void updateRecord() {
+        try {
+            List<Employee> empList = EmployeeDao.getAllEmployees();
+            textArea.setText("");
+            if (empList.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No Record Found", "Message", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            StringBuffer res = new StringBuffer("");
+            res.append("EMP_ID\tEMP_NAME\tEMP_SAL\n");
+            for (Employee e : empList) {
+                res.append(e.getId() + "\t" + e.getName() + "\t" + e.getSalary() + "\n");
+            }
+            textArea.setText(res.toString());
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error in Database", "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
 }

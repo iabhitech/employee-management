@@ -4,7 +4,11 @@
  */
 package com.iabhitech.empmgmt.gui;
 
+import com.iabhitech.empmgmt.dao.EmployeeDao;
+import com.iabhitech.empmgmt.pojo.Employee;
 import java.awt.Component;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,7 +40,7 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
         textFieldEmpSalary = new javax.swing.JTextField();
         textFieldEmpName = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         toggleTheme = new javax.swing.JSlider();
         labelToggleTheme = new javax.swing.JLabel();
 
@@ -73,8 +77,13 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
             }
         });
 
-        btnAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAdd.setText("SEARCH");
+        btnSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSearch.setText("SEARCH");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         toggleTheme.setMaximum(1);
         toggleTheme.setToolTipText("Toogle Dark/Light Theme");
@@ -112,7 +121,7 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
                                 .addComponent(textFieldEmpSalary))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPaneLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(141, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPaneLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -145,7 +154,7 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(rootPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
-                    .addComponent(btnAdd))
+                    .addComponent(btnSearch))
                 .addGap(76, 76, 76))
         );
 
@@ -173,11 +182,11 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
             labelEmpID,
             labelEmpName,
             labelEmpSal,
-            btnAdd,
+            btnSearch,
             btnBack
         }, Theme.textPrimary);
 
-        Theme.setBackground(new Component[]{rootPane, btnAdd, btnBack}, Theme.bgPrimary);
+        Theme.setBackground(new Component[]{rootPane, btnSearch, btnBack}, Theme.bgPrimary);
 
     }//GEN-LAST:event_toggleThemeStateChanged
 
@@ -186,6 +195,34 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
         new OptionsFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String empId = textFieldEmpID.getText().trim();
+        textFieldEmpName.setText("");
+        textFieldEmpSalary.setText("");
+        textFieldEmpID.requestFocus();
+
+        if (empId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please input employee id", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            int id = Integer.parseInt(empId);
+            Employee emp = EmployeeDao.findEmployeeById(id);
+            if (emp == null) {
+                JOptionPane.showMessageDialog(null, "No record found for emp id= " + id, "Employee Not Found", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            textFieldEmpName.setText(emp.getName());
+            textFieldEmpSalary.setText(String.valueOf(emp.getSalary()));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please input numeric id only", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error in Database", "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,8 +260,8 @@ public class SearchEmployeeFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel labelEmpID;
     private javax.swing.JLabel labelEmpName;
     private javax.swing.JLabel labelEmpSal;

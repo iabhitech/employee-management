@@ -4,7 +4,11 @@
  */
 package com.iabhitech.empmgmt.gui;
 
+import com.iabhitech.empmgmt.dao.EmployeeDao;
+import com.iabhitech.empmgmt.pojo.Employee;
 import java.awt.Component;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -74,6 +78,11 @@ public class AddEmployeeFrame extends javax.swing.JFrame {
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAdd.setText("ADD");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         toggleTheme.setMaximum(1);
         toggleTheme.setToolTipText("Toogle Dark/Light Theme");
@@ -165,9 +174,9 @@ public class AddEmployeeFrame extends javax.swing.JFrame {
 
     private void toggleThemeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_toggleThemeStateChanged
         // Handle Toogle Theme: DARK and LIGHT
-        
+
         Theme.setTheme(toggleTheme.getValue());
-        
+
         Theme.setForeground(new Component[]{
             labelToggleTheme,
             labelHeading,
@@ -186,6 +195,33 @@ public class AddEmployeeFrame extends javax.swing.JFrame {
         new OptionsFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+
+        if (!validateInput()) {
+            JOptionPane.showMessageDialog(null, "Please input all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int id = Integer.parseInt(textFieldEmpID.getText().trim());
+            String name = textFieldEmpName.getText().trim();
+            double sal = Double.parseDouble(textFieldEmpSalary.getText().trim());
+            Employee emp = new Employee(id, name, sal);
+            if (EmployeeDao.addEmployee(emp)) {
+                JOptionPane.showMessageDialog(null, "Data Added Succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Unable to Add data!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please input numeric data", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error in Database", "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,4 +272,10 @@ public class AddEmployeeFrame extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldEmpSalary;
     private javax.swing.JSlider toggleTheme;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validateInput() {
+        return !(textFieldEmpID.getText().trim().isEmpty()
+                || textFieldEmpName.getText().trim().isEmpty()
+                || textFieldEmpSalary.getText().trim().isEmpty());
+    }
 }

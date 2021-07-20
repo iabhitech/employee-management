@@ -4,12 +4,16 @@
  */
 package com.iabhitech.empmgmt.gui;
 
+import com.iabhitech.empmgmt.dbutil.DBConnection;
 import java.awt.Component;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Abhineet Verma
+ * @author ABHINEET VERMA
  */
 public class OptionsFrame extends javax.swing.JFrame {
 
@@ -37,6 +41,8 @@ public class OptionsFrame extends javax.swing.JFrame {
         radioBtnSearchEmp = new javax.swing.JRadioButton();
         radioBtnQuit = new javax.swing.JRadioButton();
         btnProceed = new javax.swing.JButton();
+        radioBtnUpdateEmp = new javax.swing.JRadioButton();
+        radioBtnDeleteEmp = new javax.swing.JRadioButton();
         labelToggleTheme = new javax.swing.JLabel();
         toggleTheme = new javax.swing.JSlider();
 
@@ -80,6 +86,16 @@ public class OptionsFrame extends javax.swing.JFrame {
             }
         });
 
+        btnGrpChoice.add(radioBtnUpdateEmp);
+        radioBtnUpdateEmp.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        radioBtnUpdateEmp.setText("Update Employee");
+        radioBtnUpdateEmp.setOpaque(false);
+
+        btnGrpChoice.add(radioBtnDeleteEmp);
+        radioBtnDeleteEmp.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        radioBtnDeleteEmp.setText("Delete Employee");
+        radioBtnDeleteEmp.setOpaque(false);
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
@@ -87,13 +103,8 @@ public class OptionsFrame extends javax.swing.JFrame {
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(labelHeading))
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(radioBtnAddEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10)
+                        .addComponent(labelHeading)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addContainerGap()
@@ -101,14 +112,14 @@ public class OptionsFrame extends javax.swing.JFrame {
                             .addComponent(btnProceed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelMainLayout.createSequentialGroup()
                                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(radioBtnQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(radioBtnSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(radioBtnShowAllEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(radioBtnShowAllEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(radioBtnAddEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(radioBtnDeleteEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(radioBtnUpdateEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(radioBtnQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,8 +133,12 @@ public class OptionsFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(radioBtnShowAllEmp)
                 .addGap(18, 18, 18)
+                .addComponent(radioBtnUpdateEmp)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(radioBtnDeleteEmp)
+                .addGap(18, 18, 18)
                 .addComponent(radioBtnQuit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
                 .addComponent(btnProceed, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -142,16 +157,16 @@ public class OptionsFrame extends javax.swing.JFrame {
         rootPane.setLayout(rootPaneLayout);
         rootPaneLayout.setHorizontalGroup(
             rootPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rootPaneLayout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPaneLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelToggleTheme)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(toggleTheme, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(rootPaneLayout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         rootPaneLayout.setVerticalGroup(
             rootPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,18 +177,22 @@ public class OptionsFrame extends javax.swing.JFrame {
                     .addComponent(labelToggleTheme))
                 .addGap(18, 18, 18)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(rootPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(rootPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,25 +203,38 @@ public class OptionsFrame extends javax.swing.JFrame {
 
         if (radioBtnAddEmp.isSelected()) {
 
-            AddEmployeeFrame addEmpFrame = new AddEmployeeFrame();
-            addEmpFrame.setVisible(true);
+            new AddEmployeeFrame().setVisible(true);
             this.dispose();
 
         } else if (radioBtnSearchEmp.isSelected()) {
 
-            SearchEmployeeFrame searchEmpFrame = new SearchEmployeeFrame();
-            searchEmpFrame.setVisible(true);
+            new SearchEmployeeFrame().setVisible(true);
             this.dispose();
 
         } else if (radioBtnShowAllEmp.isSelected()) {
-            
-            ViewAllEmployeeFrame viewAllEmpFrame = new ViewAllEmployeeFrame();
-            viewAllEmpFrame.setVisible(true);
+
+            new ViewAllEmployeeFrame().setVisible(true);
             this.dispose();
-            
+
+        } else if (radioBtnUpdateEmp.isSelected()) {
+
+            new UpdateEmployeeFrame().setVisible(true);
+            this.dispose();
+
+        } else if (radioBtnDeleteEmp.isSelected()) {
+
+            new DeleteEmployeeFrame().setVisible(true);
+            this.dispose();
+
         } else if (radioBtnQuit.isSelected()) {
             if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, "Are you want to Exit?")) {
+                try {
+                    DBConnection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(OptionsFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.exit(0);
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please Select a Choice the Proceed!");
@@ -219,6 +251,8 @@ public class OptionsFrame extends javax.swing.JFrame {
             radioBtnAddEmp,
             radioBtnSearchEmp,
             radioBtnShowAllEmp,
+            radioBtnUpdateEmp,
+            radioBtnDeleteEmp,
             radioBtnQuit,
             btnProceed
         }, Theme.textPrimary);
@@ -269,9 +303,11 @@ public class OptionsFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelToggleTheme;
     private javax.swing.JPanel panelMain;
     private javax.swing.JRadioButton radioBtnAddEmp;
+    private javax.swing.JRadioButton radioBtnDeleteEmp;
     private javax.swing.JRadioButton radioBtnQuit;
     private javax.swing.JRadioButton radioBtnSearchEmp;
     private javax.swing.JRadioButton radioBtnShowAllEmp;
+    private javax.swing.JRadioButton radioBtnUpdateEmp;
     private javax.swing.JPanel rootPane;
     private javax.swing.JSlider toggleTheme;
     // End of variables declaration//GEN-END:variables

@@ -19,7 +19,7 @@ import java.util.List;
 public class EmployeeDao {
 
     public static boolean addEmployee(Employee e) throws SQLException {
-        
+
         PreparedStatement ps = DBConnection.getConnection()
                 .prepareStatement("insert into employee values(?,?,?)");
 
@@ -31,20 +31,20 @@ public class EmployeeDao {
     }
 
     public static Employee findEmployeeById(int empID) throws SQLException {
-        
+
         PreparedStatement ps = DBConnection.getConnection()
-                .prepareStatement("select 8 from employee where id=?");
+                .prepareStatement("select * from employee where id=?");
 
         ps.setInt(1, empID);
-        
+
         ResultSet rs = ps.executeQuery();
-        
+
         Employee emp = null;
-        
+
         if (rs.next()) {
             emp = new Employee(rs.getInt(1), rs.getString(2), rs.getDouble(3));
         }
-        
+
         return emp;
     }
 
@@ -67,5 +67,26 @@ public class EmployeeDao {
 
         return empList;
     }
-    
+
+    public static boolean updateEmployee(Employee e) throws SQLException {
+
+        PreparedStatement ps = DBConnection.getConnection()
+                .prepareStatement("update employee set name=?, salary=? where id = ?");
+
+        ps.setString(1, e.getName());
+        ps.setDouble(2, e.getSalary());
+        ps.setInt(3, e.getId());
+
+        return ps.executeUpdate() == 1;
+    }
+
+    public static boolean deleteEmployee(int empID) throws SQLException {
+
+        PreparedStatement ps = DBConnection.getConnection()
+                .prepareStatement("delete employee where id = ?");
+
+        ps.setInt(1, empID);
+
+        return ps.executeUpdate() == 1;
+    }
 }
